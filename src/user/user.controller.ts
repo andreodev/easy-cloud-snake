@@ -13,7 +13,7 @@ export class UserController {
   @ApiOperation({ summary: 'Criar novo usuário' })
   @ApiResponse({ status: 201, description: 'Usuário criado com sucesso' })
   @ApiResponse({ status: 409, description: 'Email ou empresa já cadastrados' })
-  async create(@Body() user: UserDto) {
-    return await this.userService.create(user)
+  create(@Body() user: UserDto) {
+    return this.userService.create(user) 
   }
 }
