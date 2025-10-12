@@ -36,3 +36,24 @@ export class UserDto {
   @IsString()
   enterprise: string
 }
+
+export class UserResponseDto {
+  id: string
+  name: string
+  email: string
+  enterprise: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export class FindAllResponseDto {
+  message: string
+  data: {
+    users: UserResponseDto[]
+  }
+}
+
+export interface FindAllParameters {
+  enterprise?: string
+  email?: string
+}
