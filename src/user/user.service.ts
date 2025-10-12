@@ -10,25 +10,48 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
-  async create(newUser: UserDto) {
-    try {
-      await this.prisma.user.create({
-        data: { ...newUser, password: hashSync(newUser.password, 10) },
-      })
-      return { message: 'Usuário criado com sucesso!' }
-    } catch (error: Error | any) {
-      if (
-        error instanceof PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      ) {
-        const field = (error.meta?.target as string[])[0]
-        throw new ConflictException(
-          `${field === 'email' ? 'Email' : 'Empresa'} já cadastrado(a)!`,
-        )
-      }
-      throw new InternalServerErrorException('Erro interno do servidor')
+    async create(newUser: UserDto) {
+        try {
+            await this.prisma.user.create({
+                data: { ...newUser, password: hashSync(newUser.password, 10) },
+            })
+            return { message: 'Usuário criado com sucesso!' }
+        } catch (error: Error | any) {
+            if (
+                error instanceof PrismaClientKnownRequestError &&
+                error.code === 'P2002'
+            ) {
+                const field = (error.meta?.target as string[])[0]
+                throw new ConflictException(
+                    `${field === 'email' ? 'Email' : 'Empresa'} já cadastrado(a)!`,
+                )
+            }
+            throw new InternalServerErrorException('Erro interno do servidor')
+        }
     }
-  }
+    
+    async findAll() {
+        try {
+            const users = await this.prisma.user.findMany({
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    enterprise: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    password: false,
+                }
+            })
+            return {
+                message: 'Lista de usuários retornada com sucesso!', data: {
+                    users
+                }
+            }
+        } catch (error: unknown) {
+            throw new InternalServerErrorException('Erro interno do servidor')
+        }
+    }
 }
