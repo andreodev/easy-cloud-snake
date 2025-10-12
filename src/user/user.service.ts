@@ -3,7 +3,11 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common'
-import { FindAllParameters, FindAllResponseDto, UserDto, UserResponseDto } from './user.dto'
+import {
+  FindAllParametersDto,
+  FindAllResponseDto,
+  UserDto,
+} from './user.dto'
 import { hashSync } from 'bcrypt'
 import { PrismaService } from '../prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
@@ -32,15 +36,16 @@ export class UserService {
     }
   }
 
-  async findAll(params: FindAllParameters): Promise<FindAllResponseDto> {
+  async findAll(params: FindAllParametersDto): Promise<FindAllResponseDto> {
     try {
-      const where: any = {} 
+      const where: any = {}
 
       if (params.enterprise) where.enterprise = params.enterprise
       if (params.email) where.email = params.email
 
       const users = await this.prisma.user.findMany({
-        where,
+          where,
+          take: 100,
         select: {
           id: true,
           name: true,

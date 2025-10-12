@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestj
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { UserDto } from './user.dto'
-import type { FindAllParameters, FindAllResponseDto, UserResponseDto } from './user.dto'
+import type { FindAllParametersDto, FindAllResponseDto, UserResponseDto } from './user.dto'
 
 @ApiTags('user')
 @Controller('user')
@@ -25,7 +25,7 @@ export class UserController {
     status: 200,
     description: 'Lista de usuários retornada com sucesso',
   })
-  findAll(@Query() params: FindAllParameters): Promise<FindAllResponseDto> {
+  findAll(@Query() params: FindAllParametersDto): Promise<FindAllResponseDto> {
     return this.userService.findAll(params)
   }
 }

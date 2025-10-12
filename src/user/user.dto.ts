@@ -1,4 +1,4 @@
-import { IsString, MaxLength, MinLength, IsEmail } from 'class-validator'
+import { IsString, MaxLength, MinLength, IsEmail, IsOptional } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class UserDto {
@@ -53,7 +53,12 @@ export class FindAllResponseDto {
   }
 }
 
-export interface FindAllParameters {
-  enterprise?: string
+export class FindAllParametersDto {
+  @IsOptional()
+  @IsEmail()
   email?: string
+
+  @IsOptional()
+  @IsString()
+  enterprise?: string
 }
