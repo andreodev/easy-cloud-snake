@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestj
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { UserDto } from './user.dto'
-import type { FindAllParametersDto, FindAllResponseDto, UserResponseDto } from './user.dto'
+import type { FindAllParametersDto, FindAllResponseDto  } from './user.dto'
 
 @ApiTags('user')
 @Controller('user')

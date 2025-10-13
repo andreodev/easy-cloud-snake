@@ -38,7 +38,7 @@ export class UserService {
 
   async findAll(params: FindAllParametersDto): Promise<FindAllResponseDto> {
     try {
-      const where: any = {}
+      const where: FindAllParametersDto = {}
 
       if (params.enterprise) where.enterprise = params.enterprise
       if (params.email) where.email = params.email
@@ -64,4 +64,10 @@ export class UserService {
       throw new InternalServerErrorException('Erro interno do servidor')
     }
   }
-}
+
+  findByEmail(email: string) {
+    if(!email) return null
+
+    return this.prisma.user.findUnique({ where: { email } })
+  }
+ }

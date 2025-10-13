@@ -7,7 +7,7 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptors
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+
 
   const config = new DocumentBuilder()
     .setTitle('Easy Cloud Snake API')
@@ -22,6 +22,8 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3000;
 
   app.useGlobalInterceptors(new ResponseInterceptor())
+
+    app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(port);
   console.log(`Application is running on: http://localhost:${port}`);
