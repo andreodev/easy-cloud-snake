@@ -3,16 +3,62 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // ou "mysql", "sqlite", etc
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  enterprise String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            String      @id @default(uuid())
+  name          String
+  email         String      @unique
+  password      String
+  cpf           String      @unique
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  enterprise    Enterprise? @relation("UserEnterprise")
+  enterpriseId  String?     
+}
+
+model Enterprise {
+  id         String    @id @default(uuid())
+  nome       String
+  cnpj       String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+
+  owner      User?     @relation("UserEnterprise", fields: [ownerId], references: [id])
+  ownerId    String?   @unique
+
+  bankData   BankData?       // um-para-um
+  invoices   Invoice[]       // um-para-muitos
+}
+
+model BankData {
+  id            String     @id @default(uuid())
+  bank          String
+  branch        String     @unique
+  account       String
+  accountType   String
+  pixKey        String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now())
+
+  enterprise    Enterprise @relation(fields: [enterpriseId], references: [id])
+  enterpriseId  String     @unique
+}
+
+model Invoice {
+  id          String       @id @default(uuid())
+  value       Decimal
+  description String
+  client      String
+  status      String
+  dueDate     DateTime
+  createdAt   DateTime     @default(now())
+
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+  enterpriseId String
 }

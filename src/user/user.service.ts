@@ -29,7 +29,7 @@ export class UserService {
       ) {
         const field = (error.meta?.target as string[])[0]
         throw new ConflictException(
-          `${field === 'email' ? 'Email' : 'Empresa'} já cadastrado(a)!`,
+          `${field === 'email' ? 'Email' : 'cpf'} já cadastrado(a)!`,
         )
       }
       throw new InternalServerErrorException('Erro interno do servidor')
@@ -40,17 +40,15 @@ export class UserService {
     try {
       const where: FindAllParametersDto = {}
 
-      if (params.enterprise) where.enterprise = params.enterprise
       if (params.email) where.email = params.email
 
       const users = await this.prisma.user.findMany({
           where,
           take: 100,
         select: {
-          id: true,
           name: true,
           email: true,
-          enterprise: true,
+          cpf: true,
           createdAt: true,
           updatedAt: true,
         },

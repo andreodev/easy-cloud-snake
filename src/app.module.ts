@@ -6,13 +6,19 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { EnterpriseController } from './enterprise/enterprise.controller';
+import { EnterpriseService } from './enterprise/enterprise.service';
+import { EnterpriseModule } from './enterprise/enterprise.module';
+import { BankDataModule } from './bank_data/bank_data.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
      UserModule,
-     AuthModule],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+     AuthModule,
+     EnterpriseModule,
+     BankDataModule],
+  controllers: [AppController, UserController, EnterpriseController],
+  providers: [AppService, UserService, EnterpriseService],
 })
 export class AppModule {}

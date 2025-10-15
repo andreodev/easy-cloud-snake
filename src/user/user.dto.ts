@@ -29,19 +29,20 @@ export class UserDto {
   @MinLength(6)
   password: string
 
-  @ApiProperty({ 
-    example: 'Empresa XYZ', 
-    description: 'Nome da empresa'
+  @ApiProperty({
+    example: '12345678901',
+    description: 'CPF do usuário'
   })
   @IsString()
-  enterprise: string
+  @MinLength(11)
+  @MaxLength(11)
+  cpf: string
 }
 
 export class UserResponseDto {
-  id: string
   name: string
   email: string
-  enterprise: string
+  cpf: string
   createdAt: Date
   updatedAt: Date
 }
@@ -57,8 +58,6 @@ export class FindAllParametersDto {
   @IsOptional()
   @IsEmail()
   email?: string
-
   @IsOptional()
-  @IsString()
-  enterprise?: string
+  cpf?: string
 }
