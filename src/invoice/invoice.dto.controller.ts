@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsString } from "class-validator";
+import { IsDateString, IsString, IsOptional, IsEnum, IsUUID } from "class-validator";
 
 export enum InvoiceStatusEnum {
     PENDING = 'PENDING',
@@ -60,5 +60,53 @@ export class InvoiceDto {
   })
   @IsString()
   enterpriseId: string
+}
+
+export class FindAllParameterDto {
+  @ApiProperty({
+    required: false,
+    enum: InvoiceStatusEnum,
+    description: 'Filtrar por status da fatura',
+    example: 'PENDING'
+  })
+  @IsOptional()
+  @IsEnum(InvoiceStatusEnum)
+  status?: InvoiceStatusEnum
+
+  @ApiProperty({
+    required: false,
+    description: 'Filtrar por ID da empresa',
+    example: '123e4567-e89b-12d3-a456-426614174000'
+  })
+  @IsOptional()
+  @IsUUID()
+  enterpriseId?: string
+
+  @ApiProperty({
+    required: false,
+    description: 'Filtrar por valor da fatura',
+    example: '1500.00'
+  })
+  @IsOptional()
+  @IsString()
+  value?: string
+
+  @ApiProperty({
+    required: false,
+    description: 'Filtrar por data de criação',
+    example: '2023-12-01'
+  })
+  @IsOptional()
+  @IsDateString()
+  createdAt?: Date
+
+  @ApiProperty({
+    required: false,
+    description: 'Buscar por nome do cliente (busca parcial)',
+    example: 'João'
+  })
+  @IsOptional()
+  @IsString()
+  client?: string
 }
 

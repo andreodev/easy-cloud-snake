@@ -32,8 +32,8 @@ model Enterprise {
   owner      User?     @relation("UserEnterprise", fields: [ownerId], references: [id])
   ownerId    String?   @unique
 
-  bankData   BankData?       // um-para-um
-  invoices   Invoice[]       // um-para-muitos
+  bankData   BankData?
+  invoices   Invoice[]
 }
 
 model BankData {
