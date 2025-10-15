@@ -10,6 +10,7 @@ import { EnterpriseController } from './enterprise/enterprise.controller';
 import { EnterpriseService } from './enterprise/enterprise.service';
 import { EnterpriseModule } from './enterprise/enterprise.module';
 import { BankDataModule } from './bank_data/bank_data.module';
+import { InvoiceModule } from './invoice/invoice.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { BankDataModule } from './bank_data/bank_data.module';
      UserModule,
      AuthModule,
      EnterpriseModule,
-     BankDataModule],
+     BankDataModule,
+     InvoiceModule],
   controllers: [AppController, UserController, EnterpriseController],
   providers: [AppService, UserService, EnterpriseService],
 })
