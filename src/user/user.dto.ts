@@ -61,3 +61,9 @@ export class FindAllParametersDto {
   @IsOptional()
   cpf?: string
 }
+
+export class Me {
+  id: string;
+  email: string;
+  enterprise: string;
+}

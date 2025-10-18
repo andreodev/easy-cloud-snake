@@ -17,6 +17,7 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(newUser: UserDto) {
+    console.log(newUser)
     try {
       await this.prisma.user.create({
         data: { ...newUser, password: hashSync(newUser.password, 10) },
@@ -67,5 +68,33 @@ export class UserService {
     if(!email) return null
 
     return this.prisma.user.findUnique({ where: { email } })
+  }
+
+  async findById(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        cpf: true,
+        enterprise: {
+          select: {
+            id: true,
+            nome: true,
+            cnpj: true,
+          },
+        },
+      },
+    })
+
+    if (!user) {
+      throw new InternalServerErrorException('Usuário não encontrado')
+    }
+
+    return {
+      message: 'Usuário encontrado com sucesso!',
+      data: user,
+    }
   }
  }
