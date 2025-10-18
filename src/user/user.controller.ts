@@ -13,9 +13,9 @@ export class UserController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Criar novo usuário' })
+  @ApiOperation({ summary: 'Criar novo usuário (rota pública)' })
   @ApiResponse({ status: 201, description: 'Usuário criado com sucesso' })
-  @ApiResponse({ status: 409, description: 'Email ou empresa já cadastrados' })
+  @ApiResponse({ status: 409, description: 'Email ou CPF já cadastrados' })
   create(@Body() user: UserDto) {
     return this.userService.create(user)
   }
